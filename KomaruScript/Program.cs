@@ -30,6 +30,9 @@ public static class Program
 
     private static void ExecuteScript(string[] script)
     {
-        
+        foreach (var line in script)
+        {
+            CommandExecuter.ExecuteLine(line);
+        }
     }
 }
