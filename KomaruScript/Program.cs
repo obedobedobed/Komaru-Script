@@ -30,9 +30,54 @@ public static class Program
 
     private static void ExecuteScript(string[] script)
     {
-        foreach (var line in script)
+        for (int i = 0; i < script.Length; i++)
         {
-            CommandExecuter.ExecuteLine(line);
+            string line = script[i];
+            if (line.Trim() == string.Empty)
+            {
+                continue;
+            }
+
+            var readingContext = new List<string>();
+
+            // Checking for after command context avaible
+            if (i + 1 < script.Length && script[i + 1].Trim() == "{")
+            {
+                // Calculating context commands count and getting them
+                int depth = 1;
+                int j = i + 2;
+
+                for (; j < script.Length; j++)
+                {
+                    string contextCommand = script[j].Trim();
+
+                    if (contextCommand == "{")
+                    {
+                        depth++;
+                    }
+                    else if (contextCommand == "}")
+                    {
+                        depth--;
+                        if (depth == 0)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        readingContext.Add(contextCommand);
+                    }
+                }
+
+                if (depth != 0)
+                {
+                    ErrorLogger.Log("Unclosed figure parentheses", ErrorLevel.Error);
+                }
+
+                i = j;
+            }
+
+            komaruHunger -= CommandExecuter.ExecuteLine(line, readingContext.ToArray());
         }
     }
 }
