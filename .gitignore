@@ -89,3 +89,7 @@ nunit-*.xml
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Komaru Script
+calc.kscript
+test.kscript
