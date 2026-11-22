@@ -78,6 +78,13 @@ public static class Program
             }
 
             komaruHunger -= CommandExecuter.ExecuteLine(line, readingContext.ToArray());
+
+            if (komaruHunger <= 0)
+            {
+                Console.WriteLine("\nKomaru is very hungry, so she ate the whole script!");
+                ErrorLogger.Log("Komaru ate script.", ErrorLevel.Fatal);
+                return;
+            }
         }
     }
 }
